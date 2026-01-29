@@ -1,0 +1,15 @@
+{
+    "scripts": {
+        "dev": "tsx server/database/init.ts && nuxt dev",
+        "build": "nuxt build",
+        "start": "nuxt start"
+    },
+    "dependencies": {
+        "better-sqlite3": "^12.6.2",
+        "nuxt": "^4.2.2",
+        "tsx": "^4.21.0"
+    },
+    "devDependencies": {
+        "@element-plus/nuxt": "^1.1.4"
+    }
+}
