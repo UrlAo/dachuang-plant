@@ -1,5 +1,5 @@
 // server/api/history.get.ts
-import { defineEventHandler, getQuery } from '#imports'
+import { defineEventHandler, getQuery } from 'h3'
 import { getDb } from '../database/db'
 
 export default defineEventHandler((event) => {

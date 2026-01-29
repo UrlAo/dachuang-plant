@@ -17,7 +17,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     TextView textViewWelcome;
-    Button buttonLogout, buttonDevices;
+    Button buttonLogout, buttonDevices, buttonAddDevice, buttonHistory, buttonControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
         textViewWelcome = findViewById(R.id.textViewWelcome);
         buttonLogout = findViewById(R.id.buttonLogout);
         buttonDevices = findViewById(R.id.buttonDevices);
+        buttonAddDevice = findViewById(R.id.buttonAddDevice);
+        buttonHistory = findViewById(R.id.buttonHistory);
+        buttonControl = findViewById(R.id.buttonControl);
 
         // 获取传递过来的用户名信息并显示欢迎信息
         Intent intent = getIntent();
@@ -48,6 +51,23 @@ public class MainActivity extends AppCompatActivity {
         buttonDevices.setOnClickListener(v -> {
             // 获取设备列表
             getDeviceList();
+        });
+
+        buttonAddDevice.setOnClickListener(v -> {
+            // 添加设备
+            showAddDeviceDialog();
+        });
+
+        buttonHistory.setOnClickListener(v -> {
+            // 跳转到历史数据页面
+            Intent historyIntent = new Intent(MainActivity.this, HistoryActivity.class);
+            startActivity(historyIntent);
+        });
+
+        buttonControl.setOnClickListener(v -> {
+            // 跳转到控制页面
+            Intent controlIntent = new Intent(MainActivity.this, ControlActivity.class);
+            startActivity(controlIntent);
         });
     }
 
@@ -80,6 +100,40 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(String error) {
                 Toast.makeText(MainActivity.this, "获取设备列表失败: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showAddDeviceDialog() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("添加新设备");
+
+        final android.widget.EditText input = new android.widget.EditText(this);
+        input.setHint("请输入设备名称");
+        builder.setView(input);
+
+        builder.setPositiveButton("添加", (dialog, which) -> {
+            String deviceName = input.getText().toString().trim();
+            if (deviceName.isEmpty()) {
+                Toast.makeText(MainActivity.this, "设备名称不能为空", Toast.LENGTH_SHORT).show();
+            } else {
+                addDevice(deviceName);
+            }
+        });
+        builder.setNegativeButton("取消", null);
+        builder.show();
+    }
+
+    private void addDevice(String deviceName) {
+        ApiService.getInstance().addDevice(1, deviceName, new ApiService.ApiCallback() {
+            @Override
+            public void onSuccess(String response) {
+                Toast.makeText(MainActivity.this, "设备添加成功", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(MainActivity.this, "添加失败: " + error, Toast.LENGTH_SHORT).show();
             }
         });
     }

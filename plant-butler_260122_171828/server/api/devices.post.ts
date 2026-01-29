@@ -1,5 +1,5 @@
 // server/api/devices.post.ts
-import { defineEventHandler, readBody } from '#imports'
+import { defineEventHandler, readBody } from 'h3'
 import { getDb } from '../database/db'
 
 export default defineEventHandler(async (event) => {

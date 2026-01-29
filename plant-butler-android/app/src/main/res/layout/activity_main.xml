@@ -26,7 +26,28 @@
         android:id="@+id/buttonDevices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="获取设备列表"
+        android:text="查看我的设备"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/buttonAddDevice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="添加新设备"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/buttonHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="环境历史数据"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/buttonControl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="智能浇水控制"
         android:layout_marginBottom="16dp" />
 
     <Button

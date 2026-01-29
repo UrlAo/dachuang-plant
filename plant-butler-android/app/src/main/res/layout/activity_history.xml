@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="环境历史数据"
+        android:textSize="20sp"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/editDeviceId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="设备ID (例如: 0001)"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/editDays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="查询天数 (默认: 7天)"
+        android:inputType="number"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/buttonLoadHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="查询历史数据"
+        android:layout_marginBottom="16dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/textViewHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="输入设备ID后点击查询" />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="返回主页" />
+</LinearLayout>

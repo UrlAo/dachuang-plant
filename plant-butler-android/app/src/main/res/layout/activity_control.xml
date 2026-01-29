@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="智能浇水控制"
+        android:textSize="20sp"
+        android:layout_marginBottom="32dp" />
+
+    <EditText
+        android:id="@+id/editDeviceId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入设备ID (例如: 0001)"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/buttonWater"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="立即远程浇水 (5秒)"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="返回主页" />
+</LinearLayout>

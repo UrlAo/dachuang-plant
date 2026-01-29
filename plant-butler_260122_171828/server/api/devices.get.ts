@@ -1,5 +1,5 @@
 // server/api/devices.get.ts
-import { defineEventHandler } from '#imports'
+import { defineEventHandler } from 'h3'
 import { getDb } from '../database/db'
 
 export default defineEventHandler(() => {

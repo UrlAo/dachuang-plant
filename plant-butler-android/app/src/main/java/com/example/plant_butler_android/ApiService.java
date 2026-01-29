@@ -180,6 +180,104 @@ public class ApiService {
         });
     }
 
+    // 获取历史遥测数据
+    public void getHistory(String deviceId, int days, ApiCallback callback) {
+        String url = BASE_URL + "/api/history?id=" + deviceId + "&days=" + days;
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mainHandler.post(() -> callback.onFailure(e.getMessage()));
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body().string();
+                mainHandler.post(() -> {
+                    if (response.isSuccessful()) {
+                        callback.onSuccess(responseBody);
+                    } else {
+                        callback.onFailure("获取历史数据失败");
+                    }
+                });
+            }
+        });
+    }
+
+    // 发送控制命令
+    public void sendCommand(String deviceId, String command, int duration, ApiCallback callback) {
+        Map<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put("deviceId", deviceId);
+        bodyMap.put("command", command);
+        bodyMap.put("duration", duration);
+
+        String json = gson.toJson(bodyMap);
+        RequestBody body = RequestBody.create(json, JSON);
+
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/api/command")
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mainHandler.post(() -> callback.onFailure(e.getMessage()));
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body().string();
+                mainHandler.post(() -> {
+                    if (response.isSuccessful()) {
+                        callback.onSuccess(responseBody);
+                    } else {
+                        callback.onFailure("发送命令失败");
+                    }
+                });
+            }
+        });
+    }
+
+    // 添加设备
+    public void addDevice(int userId, String deviceName, ApiCallback callback) {
+        Map<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put("user_id", userId);
+        bodyMap.put("name", deviceName);
+        bodyMap.put("secret", "secret");
+
+        String json = gson.toJson(bodyMap);
+        RequestBody body = RequestBody.create(json, JSON);
+
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/api/devices")
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mainHandler.post(() -> callback.onFailure(e.getMessage()));
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body().string();
+                mainHandler.post(() -> {
+                    if (response.isSuccessful()) {
+                        callback.onSuccess(responseBody);
+                    } else {
+                        callback.onFailure("添加设备失败");
+                    }
+                });
+            }
+        });
+    }
+
     // 回调接口
     public interface ApiCallback {
         void onSuccess(String response);

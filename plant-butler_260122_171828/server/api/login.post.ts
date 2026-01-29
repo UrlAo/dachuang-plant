@@ -1,5 +1,5 @@
 // server/api/login.post.ts
-import { defineEventHandler, readBody, setResponseStatus } from '#imports'
+import { defineEventHandler, readBody, setResponseStatus } from 'h3'
 import { getDb } from '../database/db'
 
 export default defineEventHandler(async (event) => {
