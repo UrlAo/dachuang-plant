@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         buttonDevices.setOnClickListener(v -> {
             // 获取设备列表
+            Toast.makeText(MainActivity.this, "正在获取设备列表...", Toast.LENGTH_SHORT).show();
             getDeviceList();
         });
 

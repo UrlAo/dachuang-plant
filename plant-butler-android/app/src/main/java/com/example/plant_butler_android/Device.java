@@ -1,24 +1,27 @@
 package com.example.plant_butler_android;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Device {
-    private int id;
+    private String id;
     private String name;
+    @SerializedName("user_id")
     private int userId;
 
     public Device() {
     }
 
-    public Device(int id, String name, int userId) {
+    public Device(String id, String name, int userId) {
         this.id = id;
         this.name = name;
         this.userId = userId;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
