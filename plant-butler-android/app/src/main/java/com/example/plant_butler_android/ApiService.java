@@ -183,6 +183,33 @@ public class ApiService {
         });
     }
 
+    // 根据用户ID获取设备列表
+    public void getDevicesByUserId(int userId, ApiCallback callback) {
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/api/devices?user_id=" + userId)
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mainHandler.post(() -> callback.onFailure(e.getMessage()));
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body().string();
+                mainHandler.post(() -> {
+                    if (response.isSuccessful()) {
+                        callback.onSuccess(responseBody);
+                    } else {
+                        callback.onFailure("获取设备列表失败");
+                    }
+                });
+            }
+        });
+    }
+
     // 获取历史遥测数据
     public void getHistory(String deviceId, int days, ApiCallback callback) {
         String url = BASE_URL + "/api/history?id=" + deviceId + "&days=" + days;

@@ -21,6 +21,9 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".DeviceListActivity"
+            android:exported="false" />
+        <activity
             android:name=".HistoryActivity"
             android:exported="false" />
         <activity

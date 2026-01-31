@@ -53,9 +53,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         buttonDevices.setOnClickListener(v -> {
-            // 获取设备列表
-            Toast.makeText(MainActivity.this, "正在获取设备列表...", Toast.LENGTH_SHORT).show();
-            getDeviceList();
+            // 跳转到设备列表界面
+            Intent deviceIntent = new Intent(MainActivity.this, DeviceListActivity.class);
+            deviceIntent.putExtra("USER_ID", userId);
+            startActivity(deviceIntent);
         });
 
         buttonAddDevice.setOnClickListener(v -> {
@@ -73,39 +74,6 @@ public class MainActivity extends AppCompatActivity {
             // 跳转到控制页面
             Intent controlIntent = new Intent(MainActivity.this, ControlActivity.class);
             startActivity(controlIntent);
-        });
-    }
-
-    private void getDeviceList() {
-        ApiService.getInstance().getDevices(new ApiService.ApiCallback() {
-            @Override
-            public void onSuccess(String response) {
-                try {
-                    Gson gson = new Gson();
-                    Type listType = new TypeToken<List<Device>>() {
-                    }.getType();
-                    List<Device> devices = gson.fromJson(response, listType);
-
-                    if (devices != null && !devices.isEmpty()) {
-                        StringBuilder deviceInfo = new StringBuilder("设备列表:\n");
-                        for (Device device : devices) {
-                            deviceInfo.append("ID: ").append(device.getId())
-                                    .append(", 名称: ").append(device.getName())
-                                    .append("\n");
-                        }
-                        Toast.makeText(MainActivity.this, deviceInfo.toString(), Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(MainActivity.this, "暂无设备", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(MainActivity.this, "解析数据失败", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(String error) {
-                Toast.makeText(MainActivity.this, "获取设备列表失败: " + error, Toast.LENGTH_SHORT).show();
-            }
         });
     }
 
