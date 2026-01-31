@@ -40,9 +40,17 @@ export default defineEventHandler(async (event) => {
             return { success: false, error: 'Registration failed' }
         }
 
+        // 获取新注册的用户信息
+        const newUser = db.prepare('SELECT id, username, email, created_at FROM users WHERE username = ?').get(username)
+
         return {
             success: true,
-            message: 'User registered successfully'
+            message: 'User registered successfully',
+            user: {
+                id: newUser.id,
+                username: newUser.username,
+                email: newUser.email
+            }
         }
     } catch (err) {
         console.error('Register error:', err)

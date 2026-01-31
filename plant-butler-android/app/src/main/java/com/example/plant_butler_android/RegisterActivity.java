@@ -73,16 +73,35 @@ public class RegisterActivity extends AppCompatActivity {
         ApiService.getInstance().register(username, password, email, new ApiService.ApiCallback() {
             @Override
             public void onSuccess(String response) {
-                new android.app.AlertDialog.Builder(RegisterActivity.this)
-                        .setTitle("注册成功")
-                        .setMessage("您已成功注册")
-                        .setPositiveButton("返回登录", (dialog, which) -> {
-                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                try {
+                    // 解析服务器返回的用户信息
+                    org.json.JSONObject jsonResponse = new org.json.JSONObject(response);
+                    boolean success = jsonResponse.optBoolean("success", false);
+
+                    if (success) {
+                        org.json.JSONObject userData = jsonResponse.optJSONObject("user");
+                        if (userData != null) {
+                            int userId = userData.optInt("id", -1);
+                            String userName = userData.optString("username");
+                            String userEmail = userData.optString("email");
+
+                            // 注册成功后直接跳转到主界面，像登录一样
+                            Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                            intent.putExtra("USER_ID", userId); // 传递用户ID
+                            intent.putExtra("USERNAME", userName); // 传递用户名
                             startActivity(intent);
                             finish();
-                        })
-                        .setCancelable(false)
-                        .show();
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        String errorMsg = jsonResponse.optString("error", "注册失败");
+                        Toast.makeText(RegisterActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (org.json.JSONException e) {
+                    Toast.makeText(RegisterActivity.this, "解析服务器响应失败", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

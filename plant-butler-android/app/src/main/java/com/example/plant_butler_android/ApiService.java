@@ -76,15 +76,16 @@ public class ApiService {
                     if (response.isSuccessful()) {
                         try {
                             JSONObject json = new JSONObject(responseBody);
-                            if (json.optBoolean("success", true)) {
+                            boolean success = json.optBoolean("success", false);
+                            if (success) {
+                                // 登录成功，返回完整响应数据
                                 callback.onSuccess(responseBody);
                             } else {
                                 String error = json.optString("error", "操作失败");
                                 callback.onFailure(error);
                             }
                         } catch (Exception e) {
-                            // 如果不是JSON，也当作成功（比如获取设备列表返回的是数组）
-                            callback.onSuccess(responseBody);
+                            callback.onFailure("响应格式错误: " + e.getMessage());
                         }
                     } else {
                         String errorMessage = "请求失败";
@@ -129,17 +130,19 @@ public class ApiService {
                     if (response.isSuccessful()) {
                         try {
                             JSONObject json = new JSONObject(responseBody);
-                            if (json.optBoolean("success", true)) {
+                            boolean success = json.optBoolean("success", false);
+                            if (success) {
+                                // 注册成功，返回完整响应数据
                                 callback.onSuccess(responseBody);
                             } else {
                                 String error = json.optString("error", "注册失败");
                                 callback.onFailure(error);
                             }
                         } catch (Exception e) {
-                            callback.onSuccess(responseBody);
+                            callback.onFailure("响应格式错误: " + e.getMessage());
                         }
                     } else {
-                        String errorMessage = "注册失败";
+                        String errorMessage = "请求失败";
                         try {
                             JSONObject json = new JSONObject(responseBody);
                             errorMessage = json.optString("error", "注册失败");

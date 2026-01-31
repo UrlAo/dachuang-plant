@@ -63,11 +63,34 @@ public class LoginActivity extends AppCompatActivity {
         ApiService.getInstance().login(username, password, new ApiService.ApiCallback() {
             @Override
             public void onSuccess(String response) {
-                Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("USERNAME", username);
-                startActivity(intent);
-                finish();
+                try {
+                    // 解析服务器返回的用户信息
+                    org.json.JSONObject jsonResponse = new org.json.JSONObject(response);
+                    boolean success = jsonResponse.optBoolean("success", false);
+
+                    if (success) {
+                        org.json.JSONObject userData = jsonResponse.optJSONObject("user");
+                        if (userData != null) {
+                            int userId = userData.optInt("id", -1);
+                            String userName = userData.optString("username");
+                            String userEmail = userData.optString("email");
+
+                            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("USER_ID", userId); // 传递用户ID
+                            intent.putExtra("USERNAME", userName); // 传递用户名
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        String errorMsg = jsonResponse.optString("error", "登录失败");
+                        Toast.makeText(LoginActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (org.json.JSONException e) {
+                    Toast.makeText(LoginActivity.this, "解析服务器响应失败", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

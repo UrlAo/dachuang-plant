@@ -18,11 +18,17 @@ public class MainActivity extends AppCompatActivity {
 
     TextView textViewWelcome;
     Button buttonLogout, buttonDevices, buttonAddDevice, buttonHistory, buttonControl;
+    private int userId = -1; // 存储当前登录用户的ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 获取传递过来的用户信息
+        Intent intent = getIntent();
+        userId = intent.getIntExtra("USER_ID", -1); // 获取用户ID
+        String username = intent.getStringExtra("USERNAME");
 
         textViewWelcome = findViewById(R.id.textViewWelcome);
         buttonLogout = findViewById(R.id.buttonLogout);
@@ -31,9 +37,7 @@ public class MainActivity extends AppCompatActivity {
         buttonHistory = findViewById(R.id.buttonHistory);
         buttonControl = findViewById(R.id.buttonControl);
 
-        // 获取传递过来的用户名信息并显示欢迎信息
-        Intent intent = getIntent();
-        String username = intent.getStringExtra("USERNAME");
+        // 显示欢迎信息
         if (username != null && !username.isEmpty()) {
             textViewWelcome.setText("欢迎, " + username + "!");
         } else {
@@ -126,7 +130,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addDevice(String deviceName) {
-        ApiService.getInstance().addDevice(1, deviceName, new ApiService.ApiCallback() {
+        if (userId == -1) {
+            Toast.makeText(MainActivity.this, "用户未登录", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ApiService.getInstance().addDevice(userId, deviceName, new ApiService.ApiCallback() {
             @Override
             public void onSuccess(String response) {
                 Toast.makeText(MainActivity.this, "设备添加成功", Toast.LENGTH_SHORT).show();
