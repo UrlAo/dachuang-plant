@@ -14,6 +14,8 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import com.example.plant_butler_android.SessionManager;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView textViewWelcome;
@@ -45,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         buttonLogout.setOnClickListener(v -> {
+            // 清除会话状态
+            SessionManager sessionManager = new SessionManager(MainActivity.this);
+            sessionManager.logoutUser();
+
             // 跳转回登录页面
             Intent logoutIntent = new Intent(MainActivity.this, LoginActivity.class);
             logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

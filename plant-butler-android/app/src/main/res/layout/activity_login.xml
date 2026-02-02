@@ -50,6 +50,13 @@
         android:text="登录"
         android:layout_marginBottom="16dp" />
 
+    <CheckBox
+        android:id="@+id/checkAutoLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="自动登录"
+        android:layout_marginBottom="16dp" />
+
     <TextView
         android:id="@+id/textViewRegister"
         android:layout_width="wrap_content"

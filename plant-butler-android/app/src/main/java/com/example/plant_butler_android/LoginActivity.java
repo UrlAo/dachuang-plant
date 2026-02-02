@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +18,9 @@ public class LoginActivity extends AppCompatActivity {
     TextInputEditText editTextUsername, editTextPassword;
     Button buttonLogin;
     TextView textViewRegister;
+    CheckBox checkAutoLogin; // 新增：自动登录复选框
     DatabaseHelper databaseHelper;
+    SessionManager sessionManager; // 新增：会话管理器
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,17 @@ public class LoginActivity extends AppCompatActivity {
         initViews();
 
         databaseHelper = new DatabaseHelper(this);
+        sessionManager = new SessionManager(this); // 初始化会话管理器
+
+        // 检查是否已经登录（自动登录功能）
+        if (sessionManager.isLoggedIn()) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra("USER_ID", sessionManager.getUserId());
+            intent.putExtra("USERNAME", sessionManager.getUsername());
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         textViewRegister = findViewById(R.id.textViewRegister);
+        checkAutoLogin = findViewById(R.id.checkAutoLogin); // 初始化自动登录复选框
     }
 
     private void loginWithServer(String username, String password) {
@@ -76,6 +91,12 @@ public class LoginActivity extends AppCompatActivity {
                             String userEmail = userData.optString("email");
 
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+
+                            // 如果勾选了自动登录，则保存登录状态
+                            if (checkAutoLogin.isChecked()) {
+                                sessionManager.createLoginSession(userId, userName);
+                            }
+
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("USER_ID", userId); // 传递用户ID
                             intent.putExtra("USERNAME", userName); // 传递用户名
