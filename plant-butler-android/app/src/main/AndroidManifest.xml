@@ -24,6 +24,12 @@
             android:name=".DeviceListActivity"
             android:exported="false" />
         <activity
+            android:name=".DeviceDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DeviceWebViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".HistoryActivity"
             android:exported="false" />
         <activity

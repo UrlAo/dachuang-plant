@@ -3,7 +3,6 @@
         <el-container>
             <el-header>
                 <h1>🌱 智能浇水系统</h1>
-                <p>数据每 5 秒自动刷新</p>
             </el-header>
             <el-main>
                 <el-row :gutter="20">

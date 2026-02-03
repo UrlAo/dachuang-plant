@@ -54,11 +54,11 @@ db.prepare('INSERT OR IGNORE INTO devices (id, name, secret, created_at) VALUES 
 db.prepare('INSERT OR IGNORE INTO devices (id, name, secret, created_at) VALUES (?, ?, ?, ?)')
     .run('0002', '厨房花盆', 'secret', Math.floor(Date.now() / 1000))
 
-db.prepare('INSERT OR IGNORE INTO users (username, email, password_hash, created_at) VALUES (?, ?, ?, ?)')
-    .run('admin', '<EMAIL>', '123456', Math.floor(Date.now() / 1000))
+// db.prepare('INSERT OR IGNORE INTO users (username, email, password_hash, created_at) VALUES (?, ?, ?, ?)')
+//     .run('admin', '<EMAIL>', '123456', Math.floor(Date.now() / 1000))
 
-db.prepare('INSERT OR IGNORE INTO telemetry (device_id, timestamp, soil_humidity, temperature, light_intensity, air_humidity, auto_watering) VALUES (?, ?, ?, ?, ?, ?, ?)')
-    .run('0001', Math.floor(Date.now() / 1000), 0.5, 25, 1000, 0.7, 1)
+// db.prepare('INSERT OR IGNORE INTO telemetry (device_id, timestamp, soil_humidity, temperature, light_intensity, air_humidity, auto_watering) VALUES (?, ?, ?, ?, ?, ?, ?)')
+//     .run('0001', Math.floor(Date.now() / 1000), 0.5, 25, 1000, 0.7, 1)
 
 console.log('✅ SQLite initialized at', dbPath)
 db.close()

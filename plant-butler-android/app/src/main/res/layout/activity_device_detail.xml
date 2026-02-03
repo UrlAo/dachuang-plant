@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🌱 设备详情"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:id="@+id/textDeviceName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="设备名称"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textDeviceId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ID: 0000"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="状态: offline"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textLastSeen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="最后在线: 从未"
+            android:textSize="14sp"
+            android:layout_marginBottom="20dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📊 传感器数据"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/textTemperature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🌡️ 温度: --°C"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:background="#F0F0F0"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textSoilHumidity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="💧 土壤湿度: --%"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:background="#F0F0F0"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textAirHumidity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="💨 空气湿度: --%"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:background="#F0F0F0"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textLightIntensity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="☀️ 光照强度: -- lux"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:background="#F0F0F0"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textLastWatering"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🚿 上次浇水: 从未"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:background="#F0F0F0"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自动刷新: 每5秒"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/buttonRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="立即刷新"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/buttonBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="返回设备列表" />
+
+    </LinearLayout>
+
+</ScrollView>

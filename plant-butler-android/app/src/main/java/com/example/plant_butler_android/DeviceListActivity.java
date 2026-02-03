@@ -1,5 +1,6 @@
 package com.example.plant_butler_android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.Button;
@@ -87,6 +88,13 @@ public class DeviceListActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 0, 0, 16);
         deviceView.setLayoutParams(params);
+
+        // 添加点击事件，跳转到原生设备详情页面
+        deviceView.setOnClickListener(v -> {
+            Intent intent = new Intent(DeviceListActivity.this, DeviceDetailActivity.class);
+            intent.putExtra("DEVICE_ID", device.getId());
+            startActivity(intent);
+        });
 
         deviceListContainer.addView(deviceView);
     }
