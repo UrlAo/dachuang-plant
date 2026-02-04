@@ -42,6 +42,12 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        // 如果存在之前保存的用户名，预填充用户名输入框
+        String savedUsername = sessionManager.getSavedUsername();
+        if (!savedUsername.isEmpty()) {
+            editTextUsername.setText(savedUsername);
+        }
+
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +101,9 @@ public class LoginActivity extends AppCompatActivity {
                             // 如果勾选了自动登录，则保存登录状态
                             if (checkAutoLogin.isChecked()) {
                                 sessionManager.createLoginSession(userId, userName);
+                            } else {
+                                // 即使未勾选自动登录，也保存用户名供下次预填充
+                                sessionManager.saveUsernameOnly(userName);
                             }
 
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
