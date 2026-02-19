@@ -5,12 +5,28 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="环境历史数据"
-        android:textSize="20sp"
-        android:layout_marginBottom="16dp" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <ImageButton
+            android:id="@+id/buttonBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_media_previous"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="返回主页" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="环境历史数据"
+            android:textSize="20sp"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/editDeviceId"
@@ -45,9 +61,4 @@
             android:text="输入设备ID后点击查询" />
     </ScrollView>
 
-    <Button
-        android:id="@+id/buttonBack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="返回主页" />
 </LinearLayout>
