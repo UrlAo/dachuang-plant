@@ -3,62 +3,161 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/background_light">
 
+    <!-- 顶部标题栏 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginBottom="16dp">
+        android:background="@color/primary_color"
+        android:padding="12dp">
 
         <ImageButton
             android:id="@+id/buttonBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@android:drawable/ic_media_previous"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="返回主页" />
+            android:tint="#FFFFFF"
+            android:contentDescription="返回" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="环境历史数据"
+            android:text="📊 环境历史数据"
             android:textSize="20sp"
-            android:layout_marginStart="16dp" />
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="12dp" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/editDeviceId"
+    <!-- 查询条件区域 -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="设备ID (例如: 0001)"
-        android:layout_marginBottom="8dp" />
+        android:orientation="vertical"
+        android:background="@color/background_card"
+        android:padding="16dp"
+        android:elevation="2dp">
 
-    <EditText
-        android:id="@+id/editDays"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="设备ID"
+                android:layout_marginEnd="8dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editDeviceId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="天数"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editDays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonLoadHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="查询"
+            android:backgroundTint="@color/primary_color"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+
+    <!-- 统计摘要卡片（查询后显示） -->
+    <LinearLayout
+        android:id="@+id/summaryCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="查询天数 (默认: 7天)"
-        android:inputType="number"
-        android:layout_marginBottom="8dp" />
+        android:orientation="horizontal"
+        android:background="@color/primary_light"
+        android:padding="12dp"
+        android:visibility="gone">
 
-    <Button
-        android:id="@+id/buttonLoadHistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="查询历史数据"
-        android:layout_marginBottom="16dp" />
+        <TextView
+            android:id="@+id/textSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/primary_dark" />
+    </LinearLayout>
 
-    <ScrollView
+    <!-- 表格区域 -->
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-        <TextView
-            android:id="@+id/textViewHistory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="输入设备ID后点击查询" />
-    </ScrollView>
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- 表头 -->
+                <LinearLayout
+                    android:id="@+id/tableHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/primary_color"
+                    android:visibility="gone">
+
+                    <TextView android:layout_width="160dp" android:layout_height="wrap_content"
+                        android:text="时间" android:textColor="#FFFFFF" android:textStyle="bold"
+                        android:padding="10dp" android:textSize="13sp" />
+                    <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#80FFFFFF"/>
+                    <TextView android:layout_width="72dp" android:layout_height="wrap_content"
+                        android:text="🌡 温度" android:textColor="#FFFFFF" android:textStyle="bold"
+                        android:padding="10dp" android:textSize="13sp" android:gravity="center"/>
+                    <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#80FFFFFF"/>
+                    <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+                        android:text="💧 土壤" android:textColor="#FFFFFF" android:textStyle="bold"
+                        android:padding="10dp" android:textSize="13sp" android:gravity="center"/>
+                    <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#80FFFFFF"/>
+                    <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+                        android:text="💨 空气" android:textColor="#FFFFFF" android:textStyle="bold"
+                        android:padding="10dp" android:textSize="13sp" android:gravity="center"/>
+                    <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#80FFFFFF"/>
+                    <TextView android:layout_width="88dp" android:layout_height="wrap_content"
+                        android:text="☀ 光照" android:textColor="#FFFFFF" android:textStyle="bold"
+                        android:padding="10dp" android:textSize="13sp" android:gravity="center"/>
+
+                </LinearLayout>
+
+                <!-- 数据行容器 -->
+                <LinearLayout
+                    android:id="@+id/tableBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </LinearLayout>
+        </ScrollView>
+    </HorizontalScrollView>
 
 </LinearLayout>
