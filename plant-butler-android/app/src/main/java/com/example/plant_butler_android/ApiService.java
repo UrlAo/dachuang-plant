@@ -273,6 +273,34 @@ public class ApiService {
         });
     }
 
+    // 获取单个设备最新遥测数据（传感器数据 + 最近浇水时间）
+    // 对应服务器接口：GET /api/device/telemetry?id={deviceId}
+    public void getDeviceTelemetry(String deviceId, ApiCallback callback) {
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/api/device/telemetry?id=" + deviceId)
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mainHandler.post(() -> callback.onFailure(e.getMessage()));
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body().string();
+                mainHandler.post(() -> {
+                    if (response.isSuccessful()) {
+                        callback.onSuccess(responseBody);
+                    } else {
+                        callback.onFailure("获取遥测数据失败");
+                    }
+                });
+            }
+        });
+    }
+
     // 添加设备
     public void addDevice(int userId, String deviceName, ApiCallback callback) {
         Map<String, Object> bodyMap = new HashMap<>();
@@ -302,6 +330,34 @@ public class ApiService {
                         callback.onSuccess(responseBody);
                     } else {
                         callback.onFailure("添加设备失败");
+                    }
+                });
+            }
+        });
+    }
+
+    // 获取设备浇水历史记录（手动+自动，最近5条）
+    // 对应服务器接口：GET /api/watering-records/{deviceId}
+    public void getWateringRecords(String deviceId, ApiCallback callback) {
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/api/watering-records/" + deviceId)
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mainHandler.post(() -> callback.onFailure(e.getMessage()));
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body().string();
+                mainHandler.post(() -> {
+                    if (response.isSuccessful()) {
+                        callback.onSuccess(responseBody);
+                    } else {
+                        callback.onFailure("获取浇水记录失败");
                     }
                 });
             }
