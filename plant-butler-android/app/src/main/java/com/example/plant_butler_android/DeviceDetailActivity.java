@@ -1,13 +1,17 @@
 package com.example.plant_butler_android;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
@@ -22,7 +26,8 @@ public class DeviceDetailActivity extends AppCompatActivity {
     private TextView textDeviceName, textDeviceId, textStatus, textLastSeen;
     private TextView textTemperature, textSoilHumidity, textAirHumidity, textLightIntensity, textLastWatering;
     private LinearLayout wateringRecordsContainer;
-    private Button buttonBack, buttonRefresh;
+    private ImageButton buttonBack;
+    private Button buttonRefresh;
     private String deviceId;
     private Handler handler;
     private Runnable refreshRunnable;
@@ -48,8 +53,14 @@ public class DeviceDetailActivity extends AppCompatActivity {
         buttonBack = findViewById(R.id.buttonBack);
         buttonRefresh = findViewById(R.id.buttonRefresh);
 
+        // 显示设备ID
+        textDeviceId.setText("🔖 ID: " + deviceId);
+
         buttonBack.setOnClickListener(v -> finish());
-        buttonRefresh.setOnClickListener(v -> loadDeviceData());
+        buttonRefresh.setOnClickListener(v -> {
+            loadDeviceInfo();
+            loadDeviceData();
+        });
 
         // 设置自动刷新（每5秒）
         handler = new Handler();
@@ -62,9 +73,68 @@ public class DeviceDetailActivity extends AppCompatActivity {
         };
 
         // 首次加载
-        loadDeviceData();
+        loadDeviceInfo(); // 加载设备基本信息（名称、状态）
+        loadDeviceData(); // 加载传感器数据
         loadWateringRecords();
         handler.postDelayed(refreshRunnable, 5000);
+    }
+
+    // 加载设备基本信息（名称、状态、最后在线时间）
+    private void loadDeviceInfo() {
+        ApiService.getInstance().getDevices(new ApiService.ApiCallback() {
+            @Override
+            public void onSuccess(String response) {
+                try {
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type listType = new TypeToken<List<Device>>() {
+                    }.getType();
+                    List<Device> devices = gson.fromJson(response, listType);
+
+                    // 查找当前设备
+                    for (Device device : devices) {
+                        if (deviceId.equals(device.getId())) {
+                            updateDeviceInfoUI(device);
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    // 静默处理
+                }
+            }
+
+            @Override
+            public void onFailure(String error) {
+                // 静默处理
+            }
+        });
+    }
+
+    // 更新设备基本信息UI
+    private void updateDeviceInfoUI(Device device) {
+        // 设备名称
+        String name = device.getName();
+        if (name == null || name.isEmpty()) {
+            name = "植物管家设备";
+        }
+        textDeviceName.setText(name);
+
+        // 设备状态
+        boolean isOnline = device.isOnline();
+        if (isOnline) {
+            textStatus.setText("🟢 在线");
+            textStatus.setTextColor(ContextCompat.getColor(this, R.color.primary_color));
+        } else {
+            textStatus.setText("🔴 离线");
+            textStatus.setTextColor(Color.parseColor("#9E9E9E"));
+        }
+
+        // 最后在线时间
+        Long lastSeen = device.getLastSeen();
+        if (lastSeen != null && lastSeen > 0) {
+            textLastSeen.setText("⏱ 最后在线: " + formatTime(lastSeen));
+        } else {
+            textLastSeen.setText("⏱ 最后在线: 从未");
+        }
     }
 
     private void loadDeviceData() {
@@ -90,18 +160,18 @@ public class DeviceDetailActivity extends AppCompatActivity {
 
     private void updateTelemetryUI(Telemetry t) {
         if (t == null) {
-            textTemperature.setText("🌡️ 温度: 无数据");
-            textSoilHumidity.setText("💧 土壤湿度: 无数据");
-            textAirHumidity.setText("💨 空气湿度: 无数据");
-            textLightIntensity.setText("☀️ 光照强度: 无数据");
-            textLastWatering.setText("🚿 上次浇水: 无数据");
+            textTemperature.setText("--°C");
+            textSoilHumidity.setText("--%");
+            textAirHumidity.setText("--%");
+            textLightIntensity.setText("-- lux");
+            textLastWatering.setText("从未");
             return;
         }
-        textTemperature.setText("🌡️ 温度: " + t.temperature + "°C");
-        textSoilHumidity.setText("💧 土壤湿度: " + t.soil_humidity + "%");
-        textAirHumidity.setText("💨 空气湿度: " + t.air_humidity + "%");
-        textLightIntensity.setText("☀️ 光照强度: " + t.light_intensity + " lux");
-        textLastWatering.setText("🚿 上次浇水: " + formatTime(t.auto_watering));
+        textTemperature.setText(t.temperature + "°C");
+        textSoilHumidity.setText(t.soil_humidity + "%");
+        textAirHumidity.setText(t.air_humidity + "%");
+        textLightIntensity.setText(t.light_intensity + " lux");
+        textLastWatering.setText(formatTime(t.auto_watering));
     }
 
     private String formatTime(Long timestamp) {

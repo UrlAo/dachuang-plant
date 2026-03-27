@@ -2,6 +2,7 @@ package com.example.plant_butler_android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +20,8 @@ import com.example.plant_butler_android.SessionManager;
 public class MainActivity extends AppCompatActivity {
 
     TextView textViewWelcome;
-    Button buttonLogout, buttonDevices, buttonAddDevice, buttonHistory, buttonControl;
+    Button buttonLogout;
+    View buttonDevices, buttonAddDevice, buttonHistory, buttonControl;
     private int userId = -1; // 存储当前登录用户的ID
 
     @Override

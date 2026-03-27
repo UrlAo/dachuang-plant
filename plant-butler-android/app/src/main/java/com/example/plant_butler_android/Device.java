@@ -7,6 +7,9 @@ public class Device {
     private String name;
     @SerializedName("user_id")
     private int userId;
+    private String status; // 设备状态: online/offline
+    @SerializedName("last_seen")
+    private Long lastSeen; // 最后在线时间戳
 
     public Device() {
     }
@@ -39,5 +42,26 @@ public class Device {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Long getLastSeen() {
+        return lastSeen;
+    }
+
+    public void setLastSeen(Long lastSeen) {
+        this.lastSeen = lastSeen;
+    }
+
+    // 判断设备是否在线
+    public boolean isOnline() {
+        return "online".equalsIgnoreCase(status);
     }
 }
