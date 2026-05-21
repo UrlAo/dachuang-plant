@@ -135,7 +135,7 @@ public class DeviceListActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         cardParams.setMargins(0, 0, 0, dpToPx(12));
         cardView.setLayoutParams(cardParams);
-        cardView.setRadius(dpToPx(12));
+        cardView .setRadius(dpToPx(12));
         cardView.setCardElevation((float) dpToPx(3));
         cardView.setCardBackgroundColor(Color.WHITE);
         cardView.setClickable(true);

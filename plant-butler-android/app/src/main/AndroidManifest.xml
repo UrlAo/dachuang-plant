@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"   
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- android.permission.INTERNET	允许访问网络（发送 HTTP 请求） -->
+    <!-- android.permission.ACCESS_NETWORK_STATE	允许获取网络状态（WiFi/移动数据是否连接） -->
+
 
     <application
+
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,10 +20,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Plantbutlerandroid"
         tools:targetApi="31">
-        
+    <!-- application的配置 -->
+    <!-- android:usesCleartextTraffic="true"代表允许http明文传输 -->
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+<!-- 关键概念：android:exported
+值	含义	使用场景
+false	仅应用内部可访问	普通页面（需要登录后跳转）
+true	可被其他应用/系统调用	启动页、需要外部调用的页面 -->
         <activity
             android:name=".DeviceListActivity"
             android:exported="false" />
@@ -41,12 +50,18 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true">
+            <!-- ".LoginActivity"的页面 允许系统外部直接访问，它是桌面启动器所以必须要允许外界访问 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <!-- 声明这是程序的主入口 -->
                 <category android:name="android.intent.category.LAUNCHER" />
+                <!-- 意味着这个页面出现在桌面启动器中 -->
             </intent-filter>
         </activity>
+        <!-- 代表着结束LoginActivity的注册 -->
         
     </application>
+    <!-- 代表结束应用配置 -->
 
 </manifest>
+<!-- 代表结束清单文件 -->
